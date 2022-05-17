@@ -27,13 +27,13 @@ public class IngredientServiceImpl implements IngredientService {
 
     @Override
     public List<Ingredient> findAll(){
-       return ingredientRepository.findAll();
+       return (List<Ingredient>) ingredientRepository.findAll();
     }
 
     @Override
     public void update(Ingredient ingredient) {
-        ingredientRepository.saveAndFlush(ingredient);
+        ingredientRepository.save(ingredient);
     }
 
-    public void update(List<Ingredient> ingredients){ingredientRepository.saveAllAndFlush(ingredients);}
+    public void update(List<Ingredient> ingredients){ingredientRepository.saveAll(ingredients);}
 }

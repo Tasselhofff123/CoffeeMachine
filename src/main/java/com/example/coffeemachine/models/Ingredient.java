@@ -1,19 +1,22 @@
 package com.example.coffeemachine.models;
 
+import lombok.Data;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "ingredients")
+@Data
 public class Ingredient {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    int id;
     @Column(name = "name")
-    private String name;
+    String name;
     @Column(name = "count")
-    private int count;
+    int count;
     @Column(name = "max_count")
-    private int maxCount;
+    int maxCount;
     public Ingredient(){}
 
     public Ingredient(int id, String name, int count, int maxCount) {
@@ -23,35 +26,5 @@ public class Ingredient {
         this.maxCount = maxCount;
     }
 
-    public int getId() {
-        return id;
-    }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getCount() {
-        return count;
-    }
-
-    public void setCount(int count) {
-        this.count = count;
-    }
-
-    public int getMaxCount() {
-        return maxCount;
-    }
-
-    public void setMaxCount(int maxCount) {
-        this.maxCount = maxCount;
-    }
 }

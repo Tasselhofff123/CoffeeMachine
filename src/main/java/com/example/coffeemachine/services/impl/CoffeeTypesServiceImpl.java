@@ -21,7 +21,7 @@ public class CoffeeTypesServiceImpl implements CoffeeTypesService {
 
     @Override
     public List<Coffee> findAll() {
-        return coffeeTypesRepository.findAll();
+        return (List<Coffee>) coffeeTypesRepository.findAll();
     }
 
     @Override

@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  postgres:
+    image: 'postgres:10'
+    container_name: 'coffee-postgres'
+
+    environment:
+      - 'POSTGRES_DB=coffee_machine'
+      - 'POSTGRES_USER=postgres'
+      - 'POSTGRES_PASSWORD=cyfqgthjr202020'
+
+  app:
+    build: ./
+    container_name: 'coffee-app'
+    ports:
+      - "8080:8080"
+    links:
+      - 'postgres:localhost'
