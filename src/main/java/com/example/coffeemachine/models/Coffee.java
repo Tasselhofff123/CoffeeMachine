@@ -42,7 +42,7 @@ public class Coffee {
     public int getSumWaterCount(){
         return espresso.getWaterCount() + getWaterCount();
     }
-    
+
     public int getSumMilkCount(){
         int sumMilkCount = 0;
         for(Milk milk : milks){

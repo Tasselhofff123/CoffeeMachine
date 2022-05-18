@@ -28,10 +28,11 @@ public class MakingCoffeeController {
         this.ingredientService = ingredientService;
         this.coffeeTypesService = coffeeTypesService;
     }
+
     @ApiOperation("Возвращает список кофе, которые умеет готовить кофемашина")
     @GetMapping
-    public ResponseEntity<List<Coffee>> getCoffeeTypes(){
-        List <Coffee> coffees = coffeeTypesService.findAll();
+    public ResponseEntity<List<Coffee>> getCoffeeTypes() {
+        List<Coffee> coffees = coffeeTypesService.findAll();
         return new ResponseEntity<>(coffees, HttpStatus.OK);
     }
 
@@ -44,14 +45,14 @@ public class MakingCoffeeController {
 
     @ApiOperation("Возвращает список ингредиентов, находящихся в кофемашине")
     @GetMapping("/ingredients")
-    public List<Ingredient> getAllIngredients(){
+    public List<Ingredient> getAllIngredients() {
         return ingredientService.findAll();
     }
 
     @ApiOperation("Пополняет количество ингредиента в кофемашине")
     @PatchMapping("/ingredients/{ingredientId}")
     public Ingredient putIngredient(@PathVariable("ingredientId") int ingredientId,
-                                    @RequestParam(name = "count") int puttingCount){
+                                    @RequestParam(name = "count") int puttingCount) {
         return coffeeProcessing.updateIngredient(ingredientId, puttingCount);
     }
 

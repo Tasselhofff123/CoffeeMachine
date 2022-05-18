@@ -25,7 +25,7 @@ public class CoffeeProcessing {
         this.ingredientService = ingredientService;
     }
 
-    public ResponseEntity<?> makingCoffee(int coffeeTypeId){
+    public ResponseEntity<?> makingCoffee(int coffeeTypeId) {
         Coffee coffee = coffeeTypesService.findById(coffeeTypeId);
         Set<Ingredient> absenceSet = ingredientsAbsence(coffee);
 
@@ -39,54 +39,71 @@ public class CoffeeProcessing {
 
     //Проверяет, всех ли ингредиентов хватает для создания указанного кофе.
     //Возвращает множество ингредиентов, которых не хватает
-    private Set<Ingredient> ingredientsAbsence(Coffee coffee){
-        int neededWaterCount = coffee.getSumWaterCount();
-        int neededCoffeeCount = coffee.getSumCoffeeCount();
-        int neededMilkCount = coffee.getSumMilkCount();
+    private Set<Ingredient> ingredientsAbsence(Coffee coffee) {
 
         Set<Ingredient> absenceSet = new HashSet<>();
 
         List<Ingredient> availableIngredients = new ArrayList<>(ingredientService.findAll());
-        for(Ingredient ingredient : availableIngredients) {
-            if (ingredient.getName().equals("Вода") && ingredient.getCount() < neededWaterCount) {
-                absenceSet.add(ingredient);
-            }
-            else if (ingredient.getName().equals("Кофе") && ingredient.getCount() < neededCoffeeCount) {
-                absenceSet.add(ingredient);
-            }
-            else if(ingredient.getName().equals("Молоко") && ingredient.getCount() < neededMilkCount){
+        for (Ingredient ingredient : availableIngredients) {
+            if (isAbsence(coffee, ingredient)) {
                 absenceSet.add(ingredient);
             }
         }
         return absenceSet;
     }
 
-    //private HashSet<Ingredient> fillingAbsenceSet(Coffee neededCoffee, HashSet absenceSet){}
+    private boolean isAbsence(Coffee neededCoffee, Ingredient havingIngredient) {
+        String ingredientName = havingIngredient.getName();
+        int havingIngredientCount = havingIngredient.getCount();
+
+        int neededIngredientCount;
+        if (ingredientName.equals("Вода")) {
+            neededIngredientCount = neededCoffee.getSumWaterCount();
+        } else if (ingredientName.equals("Кофе")) {
+            neededIngredientCount = neededCoffee.getSumCoffeeCount();
+        } else {
+            neededIngredientCount = neededCoffee.getSumMilkCount();
+        }
+        return !isEnoughIngredient(neededIngredientCount, havingIngredientCount);
+    }
+
+    private boolean isEnoughIngredient(int neededCount, int havingCount) {
+        return neededCount <= havingCount;
+    }
 
 
-    private void useIngredients(Coffee coffee){
-        List<Ingredient> updatedIngredients = new ArrayList<>(ingredientService.findAll());
+    private void useIngredients(Coffee coffee) {
+        List<Ingredient> updatingIngredients = new ArrayList<>(ingredientService.findAll());
 
-        for (Ingredient ingredient : updatedIngredients){
-            if (ingredient.getName().equals("Вода"))
-                ingredient.setCount(ingredient.getCount() - coffee.getSumWaterCount());
-            else if (ingredient.getName().equals("Кофе"))
-                ingredient.setCount(ingredient.getCount() - coffee.getSumCoffeeCount());
-            else
-                ingredient.setCount(ingredient.getCount() - coffee.getSumMilkCount());
+        for (Ingredient ingredient : updatingIngredients) {
+            String ingredientName = ingredient.getName();
+            int resultCount;
+
+            if (ingredientName.equals("Вода")) {
+                resultCount = ingredient.getCount() - coffee.getSumWaterCount();
+            } else if (ingredientName.equals("Кофе")) {
+                resultCount = ingredient.getCount() - coffee.getSumCoffeeCount();
+            } else {
+                resultCount = ingredient.getCount() - coffee.getSumMilkCount();
+            }
+            ingredient.setCount(resultCount);
         }
 
-        ingredientService.update(updatedIngredients);
+        ingredientService.update(updatingIngredients);
     }
 
 
     public Ingredient updateIngredient(int ingredientId, int puttingCount) {
         Ingredient availableIngredient = ingredientService.find(ingredientId);
 
-        if (puttingCount + availableIngredient.getCount() >= availableIngredient.getMaxCount())
-            availableIngredient.setCount(availableIngredient.getMaxCount());
-        else
-            availableIngredient.setCount(availableIngredient.getCount() + puttingCount);
+        int resultIngredientCount = puttingCount + availableIngredient.getCount();
+        int maxIngredientCount = availableIngredient.getMaxCount();
+        
+        if (resultIngredientCount >= maxIngredientCount) {
+            availableIngredient.setCount(maxIngredientCount);
+        } else {
+            availableIngredient.setCount(resultIngredientCount);
+        }
 
         ingredientService.update(availableIngredient);
         return availableIngredient;

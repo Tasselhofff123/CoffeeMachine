@@ -16,7 +16,9 @@ public class Milk {
     @Column(name = "whipped")
     boolean whipped;
 
-    public Milk(){}
+    public Milk() {
+    }
+
     public Milk(int id, int count, boolean whipped) {
         this.id = id;
         this.count = count;

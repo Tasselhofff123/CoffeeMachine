@@ -6,6 +6,8 @@ import java.util.List;
 
 public interface IngredientService {
     Ingredient find(int id);
+
     List<Ingredient> findAll();
+
     void update(Ingredient ingredient);
 }

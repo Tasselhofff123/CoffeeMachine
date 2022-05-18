@@ -16,7 +16,9 @@ public class Espresso {
     @Column(name = "watercount")
     int waterCount;
 
-    public Espresso(){}
+    public Espresso() {
+    }
+
     public Espresso(int id, int coffeeCount, int waterCount) {
         this.id = id;
         this.coffeeCount = coffeeCount;

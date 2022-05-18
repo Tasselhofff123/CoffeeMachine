@@ -17,7 +17,9 @@ public class Ingredient {
     int count;
     @Column(name = "max_count")
     int maxCount;
-    public Ingredient(){}
+
+    public Ingredient() {
+    }
 
     public Ingredient(int id, String name, int count, int maxCount) {
         this.id = id;
