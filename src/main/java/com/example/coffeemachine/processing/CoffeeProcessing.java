@@ -2,8 +2,8 @@ package com.example.coffeemachine.processing;
 
 import com.example.coffeemachine.models.Coffee;
 import com.example.coffeemachine.models.Ingredient;
-import com.example.coffeemachine.services.impl.CoffeeTypesServiceImpl;
-import com.example.coffeemachine.services.impl.IngredientServiceImpl;
+import com.example.coffeemachine.services.CoffeeTypesService;
+import com.example.coffeemachine.services.IngredientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,11 +16,11 @@ import java.util.Set;
 
 @Component
 public class CoffeeProcessing {
-    private final CoffeeTypesServiceImpl coffeeTypesService;
-    private final IngredientServiceImpl ingredientService;
+    private final CoffeeTypesService coffeeTypesService;
+    private final IngredientService ingredientService;
 
     @Autowired
-    public CoffeeProcessing(CoffeeTypesServiceImpl coffeeTypesService, IngredientServiceImpl ingredientService) {
+    public CoffeeProcessing(CoffeeTypesService coffeeTypesService, IngredientService ingredientService) {
         this.coffeeTypesService = coffeeTypesService;
         this.ingredientService = ingredientService;
     }
@@ -98,7 +98,7 @@ public class CoffeeProcessing {
 
         int resultIngredientCount = puttingCount + availableIngredient.getCount();
         int maxIngredientCount = availableIngredient.getMaxCount();
-        
+
         if (resultIngredientCount >= maxIngredientCount) {
             availableIngredient.setCount(maxIngredientCount);
         } else {

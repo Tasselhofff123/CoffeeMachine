@@ -4,8 +4,8 @@ package com.example.coffeemachine.controllers;
 import com.example.coffeemachine.models.Coffee;
 import com.example.coffeemachine.models.Ingredient;
 import com.example.coffeemachine.processing.CoffeeProcessing;
-import com.example.coffeemachine.services.impl.CoffeeTypesServiceImpl;
-import com.example.coffeemachine.services.impl.IngredientServiceImpl;
+import com.example.coffeemachine.services.CoffeeTypesService;
+import com.example.coffeemachine.services.IngredientService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,12 +18,12 @@ import java.util.List;
 @RequestMapping("/coffee-machine")
 public class MakingCoffeeController {
     private final CoffeeProcessing coffeeProcessing;
-    private final CoffeeTypesServiceImpl coffeeTypesService;
-    private final IngredientServiceImpl ingredientService;
+    private final CoffeeTypesService coffeeTypesService;
+    private final IngredientService ingredientService;
 
     @Autowired
-    public MakingCoffeeController(CoffeeProcessing coffeeProcessing, IngredientServiceImpl ingredientService,
-                                  CoffeeTypesServiceImpl coffeeTypesService) {
+    public MakingCoffeeController(CoffeeProcessing coffeeProcessing, IngredientService ingredientService,
+                                  CoffeeTypesService coffeeTypesService) {
         this.coffeeProcessing = coffeeProcessing;
         this.ingredientService = ingredientService;
         this.coffeeTypesService = coffeeTypesService;
