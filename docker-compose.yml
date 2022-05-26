@@ -2,18 +2,22 @@ version: '3'
 
 services:
   postgres:
-    image: 'postgres:10'
+    image: 'postgres:12'
     container_name: 'coffee-postgres'
-
     environment:
       - 'POSTGRES_DB=coffee_machine'
       - 'POSTGRES_USER=postgres'
       - 'POSTGRES_PASSWORD=cyfqgthjr202020'
+    volumes:
+      - ./db-data:/var/lib/postgresql/data
+      - ./coffee.sql:/docker-entrypoint-initdb.d/coffee.sql
 
-  app:
+  coffee_app:
     build: ./
     container_name: 'coffee-app'
+    depends_on:
+      - postgres
+    environment:
+      - 'spring.datasource.url=jdbc:postgresql://postgres:5432/coffee_machine'
     ports:
       - "8080:8080"
-    links:
-      - 'postgres:localhost'
