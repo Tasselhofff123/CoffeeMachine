@@ -1,0 +1,1 @@
+service postgresql start && coffee_machine /coffee_DB.backup && sudo -u postgres psql -c "ALTER USER postgres PASSWORD 'cyfqgthjr202020';" && java -jar coffee.jar
