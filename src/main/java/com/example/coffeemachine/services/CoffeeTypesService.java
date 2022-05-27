@@ -1,24 +1,22 @@
 package com.example.coffeemachine.services;
 
 import com.example.coffeemachine.models.Coffee;
-import com.example.coffeemachine.services.interfaces.DataBaseServiceInterface;
+import com.example.coffeemachine.services.interfaces.CoffeeTypesServiceInterface;
 import com.example.coffeemachine.services.mappers.CoffeeMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
-@Service
 @Transactional
-public class CoffeeTypesService implements DataBaseServiceInterface<Coffee> {
-    private final NamedParameterJdbcTemplate jdbcTemplate;
+
+public class CoffeeTypesService implements CoffeeTypesServiceInterface {
+    private final JdbcTemplate jdbcTemplate;
 
     @Autowired
-    public CoffeeTypesService(NamedParameterJdbcTemplate jdbcTemplate) {
+    public CoffeeTypesService(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
@@ -47,16 +45,11 @@ public class CoffeeTypesService implements DataBaseServiceInterface<Coffee> {
     }
 
     public Coffee find(int id) {
-        String query = "SELECT * FROM coffee_types JOIN espresso_recipes on espresso_id = espresso_recipes.id\\n\" +\n" +
-                "                                \"JOIN coffee_types_milk  ON coffee_types.id = coffee_types_milk.coffee_id\\n\" +\n" +
-                "                                \"JOIN milk ON coffee_types_milk.milk_id = milk.id\\n\" +\n" +
-                "                                \"WHERE coffee_types.id=:id";
-
-        SqlParameterSource namedParameters = new MapSqlParameterSource().addValue("id", id);
-
-        return jdbcTemplate.query(query,
-                        namedParameters, new CoffeeMapper())
+        return jdbcTemplate.query("SELECT * FROM coffee_types JOIN espresso_recipes on espresso_id = espresso_recipes.id\n" +
+                                "JOIN coffee_types_milk  ON coffee_types.id = coffee_types_milk.coffee_id\n" +
+                                "JOIN milk ON coffee_types_milk.milk_id = milk.id\n" +
+                                "WHERE coffee_types.id=?",
+                        new Object[]{id}, new CoffeeMapper())
                 .stream().findAny().orElse(null);
     }
-
 }

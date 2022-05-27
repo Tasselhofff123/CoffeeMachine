@@ -1,34 +1,27 @@
 package com.example.coffeemachine.services;
 
 import com.example.coffeemachine.models.Ingredient;
-import com.example.coffeemachine.services.interfaces.DataBaseServiceInterface;
+import com.example.coffeemachine.services.interfaces.IngredientServiceInterface;
 import com.example.coffeemachine.services.mappers.IngredientMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-@Service
 @Transactional
-public class IngredientService implements DataBaseServiceInterface<Ingredient> {
-    private final NamedParameterJdbcTemplate jdbcTemplate;
+public class IngredientService implements IngredientServiceInterface {
+    private final JdbcTemplate jdbcTemplate;
 
     @Autowired
-    public IngredientService(NamedParameterJdbcTemplate jdbcTemplate) {
+    public IngredientService(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
     public Ingredient find(int id) {
-        String query = "SELECT * FROM ingredients WHERE id=:id";
-        SqlParameterSource namedParameters = new MapSqlParameterSource()
-                .addValue("id", id);
-
-        return jdbcTemplate.query(query,
-                namedParameters, new IngredientMapper())
+        return jdbcTemplate.query("SELECT * FROM ingredients WHERE id=?",
+                        new Object[]{id}, new IngredientMapper())
                 .stream().findAny().orElse(null);
     }
 
@@ -38,13 +31,7 @@ public class IngredientService implements DataBaseServiceInterface<Ingredient> {
 
 
     public void update(Ingredient ingredient) {
-        String sql = "UPDATE ingredients SET count = :count WHERE id = :id";
-
-        SqlParameterSource namedParameters = new MapSqlParameterSource()
-                .addValue("id", ingredient.getId())
-                .addValue("count", ingredient.getCount());
-
-        jdbcTemplate.update(sql, namedParameters);
+        jdbcTemplate.update("UPDATE ingredients SET count=? WHERE id=?", ingredient.getCount(), ingredient.getId());
     }
 
     public void update(List<Ingredient> ingredients) {

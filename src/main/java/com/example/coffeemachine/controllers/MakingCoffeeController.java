@@ -4,8 +4,9 @@ package com.example.coffeemachine.controllers;
 import com.example.coffeemachine.models.Coffee;
 import com.example.coffeemachine.models.Ingredient;
 import com.example.coffeemachine.processing.CoffeeProcessing;
-import com.example.coffeemachine.services.CoffeeTypesService;
-import com.example.coffeemachine.services.IngredientService;
+import com.example.coffeemachine.services.IngredientServiceNamed;
+import com.example.coffeemachine.services.interfaces.CoffeeTypesServiceInterface;
+import com.example.coffeemachine.services.interfaces.IngredientServiceInterface;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,21 +19,21 @@ import java.util.List;
 @RequestMapping("/coffee-machine")
 public class MakingCoffeeController {
     private final CoffeeProcessing coffeeProcessing;
-    private final CoffeeTypesService coffeeTypesService;
-    private final IngredientService ingredientService;
+    private final CoffeeTypesServiceInterface coffeeService;
+    private final IngredientServiceInterface ingredientService;
 
     @Autowired
-    public MakingCoffeeController(CoffeeProcessing coffeeProcessing, IngredientService ingredientService,
-                                  CoffeeTypesService coffeeTypesService) {
+    public MakingCoffeeController(CoffeeProcessing coffeeProcessing, IngredientServiceInterface ingredientServiceNamed,
+                                  CoffeeTypesServiceInterface coffeeTypesServiceNamed) {
         this.coffeeProcessing = coffeeProcessing;
-        this.ingredientService = ingredientService;
-        this.coffeeTypesService = coffeeTypesService;
+        this.ingredientService = ingredientServiceNamed;
+        this.coffeeService = coffeeTypesServiceNamed;
     }
 
     @ApiOperation("Возвращает список кофе, которые умеет готовить кофемашина")
     @GetMapping
     public ResponseEntity<List<Coffee>> getCoffeeTypes() {
-        List<Coffee> coffees = coffeeTypesService.findAll();
+        List<Coffee> coffees = coffeeService.findAll();
         return new ResponseEntity<>(coffees, HttpStatus.OK);
     }
 
