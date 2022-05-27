@@ -1,4 +1,4 @@
-package com.example.coffeemachine.services.impl;
+package com.example.coffeemachine.services;
 
 import com.example.coffeemachine.models.Coffee;
 import com.example.coffeemachine.services.interfaces.DataBaseServiceInterface;
