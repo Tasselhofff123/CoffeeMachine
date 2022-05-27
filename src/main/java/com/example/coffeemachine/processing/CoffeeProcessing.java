@@ -2,8 +2,8 @@ package com.example.coffeemachine.processing;
 
 import com.example.coffeemachine.models.Coffee;
 import com.example.coffeemachine.models.Ingredient;
-import com.example.coffeemachine.services.CoffeeTypesService;
-import com.example.coffeemachine.services.IngredientService;
+import com.example.coffeemachine.services.impl.CoffeeTypesService;
+import com.example.coffeemachine.services.impl.IngredientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +26,7 @@ public class CoffeeProcessing {
     }
 
     public ResponseEntity<?> makingCoffee(int coffeeTypeId) {
-        Coffee coffee = coffeeTypesService.findById(coffeeTypeId);
+        Coffee coffee = coffeeTypesService.find(coffeeTypeId);
         Set<Ingredient> absenceSet = ingredientsAbsence(coffee);
 
         if (!absenceSet.isEmpty()) {
