@@ -3,41 +3,42 @@
 <Configuration status="info">
     <Properties>
         <Property name="log-path">./logs</Property>
+        <!--<Property name="log-path">/coffee/logs</Property>-->
         <Property name="pattern">%d [%t] %-5level: %msg%n%throwable</Property>
     </Properties>
 
     <Appenders>
         <Console name="TraceOut">
-            <ThresholdFilter level = "INFO" onMatch = "ACCEPT" onMismatch = "DENY" />
+            <ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
             <PatternLayout pattern="${pattern}"/>
         </Console>
 
-        <RollingFile name="debugFile" fileName="${log-path}/debug.log"
-                     filePattern="${log-path}/$${date:yyyy-MM}/debug-%d{MM-dd-yyyy}-%i.log.gz">
-            <ThresholdFilter level = "INFO" onMatch = "DENY" onMismatch = "ACCEPT" />
+        <RollingFile name="debugFile" fileName="${log-path}/debug/debug.log"
+                     filePattern="${log-path}/debug/$${date:yyyy-MM}/debug-%d{MM-dd-yyyy}-%i.gz">
+            <ThresholdFilter level="INFO" onMatch="DENY" onMismatch="ACCEPT"/>
             <PatternLayout pattern="${pattern}"/>
             <Policies>
-                <TimeBasedTriggeringPolicy />
-                <SizeBasedTriggeringPolicy size="20 KB" />
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="20 KB"/>
             </Policies>
         </RollingFile>
 
-        <RollingFile name="errorFile" fileName="${log-path}/error.log"
-                     filePattern="${log-path}/$${date:yyyy-MM}/error-%d{MM-dd-yyyy}-%i.log.gz">
+        <RollingFile name="errorFile" fileName="${log-path}/error/error.log"
+                     filePattern="${log-path}/error/$${date:yyyy-MM}/error-%d{MM-dd-yyyy}-%i.log.gz">
             <PatternLayout pattern="${pattern}"/>
             <Policies>
-                <TimeBasedTriggeringPolicy />
-                <SizeBasedTriggeringPolicy size="20 KB" />
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="20 KB"/>
             </Policies>
         </RollingFile>
 
-        <RollingFile name="traceFile" fileName="${log-path}/trace.log"
-                     filePattern="${log-path}/$${date:yyyy-MM}/trace-%d{MM-dd-yyyy}-%i.log.gz">
-            <ThresholdFilter level = "DEBUG" onMatch = "DENY" onMismatch = "ACCEPT" />
+        <RollingFile name="traceFile" fileName="${log-path}/trace/trace.log"
+                     filePattern="${log-path}/trace/$${date:yyyy-MM}/trace-%d{MM-dd-yyyy}-%i.log.gz">
+            <ThresholdFilter level="DEBUG" onMatch="DENY" onMismatch="ACCEPT"/>
             <PatternLayout pattern="${pattern}"/>
             <Policies>
-                <TimeBasedTriggeringPolicy />
-                <SizeBasedTriggeringPolicy size="20 KB" />
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="20 KB"/>
             </Policies>
         </RollingFile>
     </Appenders>
