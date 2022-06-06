@@ -83,6 +83,7 @@ public class CoffeeProcessing {
 
 
     private void useIngredients(Coffee coffee) {
+        log.debug("Started using ingredients for coffee '{}'", coffee.getName());
         List<Ingredient> updatingIngredients = new ArrayList<>(ingredientService.findAll());
 
         for (Ingredient ingredient : updatingIngredients) {
@@ -90,32 +91,40 @@ public class CoffeeProcessing {
             int resultCount;
 
             if (ingredientName.equals("Вода")) {
+                log.trace("Calculating count of ingredient '{}' for update", ingredientName);
                 resultCount = ingredient.getCount() - coffee.getSumWaterCount();
             } else if (ingredientName.equals("Кофе")) {
+                log.trace("Calculating count of ingredient '{}' for update", ingredientName);
                 resultCount = ingredient.getCount() - coffee.getSumCoffeeCount();
             } else {
+                log.trace("Calculating count of ingredient '{}' for update", ingredientName);
                 resultCount = ingredient.getCount() - coffee.getSumMilkCount();
             }
             ingredient.setCount(resultCount);
         }
 
         ingredientService.update(updatingIngredients);
+        log.debug("Using ingredients for coffee '{}' is finished", coffee.getName());
     }
 
 
     public Ingredient updateIngredient(int ingredientId, int puttingCount) {
+        log.debug("Started ingredient updating by id={} for count={}", ingredientId, puttingCount);
         Ingredient availableIngredient = ingredientService.find(ingredientId);
 
         int resultIngredientCount = puttingCount + availableIngredient.getCount();
         int maxIngredientCount = availableIngredient.getMaxCount();
 
         if (resultIngredientCount >= maxIngredientCount) {
+            log.trace("Result count of this ingredient is more then coffee-machine can take." +
+                    " Setting max count");
             availableIngredient.setCount(maxIngredientCount);
         } else {
             availableIngredient.setCount(resultIngredientCount);
         }
 
         ingredientService.update(availableIngredient);
+        log.debug("Ingredient updating finished");
         return availableIngredient;
     }
 }

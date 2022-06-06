@@ -3,7 +3,6 @@
 <Configuration status="info">
     <Properties>
         <Property name="log-path">./logs</Property>
-        <!--<Property name="log-path">/coffee/logs</Property>-->
         <Property name="pattern">%d [%t] %-5level: %msg%n%throwable</Property>
     </Properties>
 
@@ -19,7 +18,7 @@
             <PatternLayout pattern="${pattern}"/>
             <Policies>
                 <TimeBasedTriggeringPolicy/>
-                <SizeBasedTriggeringPolicy size="20 KB"/>
+                <SizeBasedTriggeringPolicy size="1 MB"/>
             </Policies>
         </RollingFile>
 
@@ -28,7 +27,7 @@
             <PatternLayout pattern="${pattern}"/>
             <Policies>
                 <TimeBasedTriggeringPolicy/>
-                <SizeBasedTriggeringPolicy size="20 KB"/>
+                <SizeBasedTriggeringPolicy size="1 MB"/>
             </Policies>
         </RollingFile>
 
@@ -38,7 +37,7 @@
             <PatternLayout pattern="${pattern}"/>
             <Policies>
                 <TimeBasedTriggeringPolicy/>
-                <SizeBasedTriggeringPolicy size="20 KB"/>
+                <SizeBasedTriggeringPolicy size="1 MB"/>
             </Policies>
         </RollingFile>
     </Appenders>

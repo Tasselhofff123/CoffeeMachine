@@ -36,11 +36,10 @@ public class IngredientServiceNamedImpl implements IngredientServiceInterface {
         return foundIngredient;
     }
 
-    private void logForIngredient(Ingredient foundIngredient){
-        if (foundIngredient == null){
+    private void logForIngredient(Ingredient foundIngredient) {
+        if (foundIngredient == null) {
             log.error("Ingredient not found");
-        }
-        else {
+        } else {
             log.debug("Ingredient found");
         }
     }
@@ -55,17 +54,16 @@ public class IngredientServiceNamedImpl implements IngredientServiceInterface {
     }
 
     private void logForIngredientsList(List<Ingredient> foundIngredientsList) {
-        if (foundIngredientsList.isEmpty()){
+        if (foundIngredientsList.isEmpty()) {
             log.error("Ingredients not found");
-        }
-        else {
+        } else {
             log.debug("Ingredients found");
         }
     }
 
     @Override
     public void update(Ingredient ingredient) {
-        log.debug("Updating {} count", ingredient.getName());
+        log.debug("Updating ingredient '{}'", ingredient.getName());
         String sql = "UPDATE ingredients SET count = :count WHERE id = :id";
 
         SqlParameterSource namedParameters = new MapSqlParameterSource()
@@ -80,9 +78,9 @@ public class IngredientServiceNamedImpl implements IngredientServiceInterface {
     public void update(List<Ingredient> ingredients) {
         log.debug("Using ingredients");
         for (Ingredient ingredient : ingredients) {
-            log.trace("Updating {} count", ingredient.getName());
+            log.trace("Updating ingredient '{}'", ingredient.getName());
             update(ingredient);
-            log.trace("{} updated", ingredient.getName());
+            log.trace("'{}' updated", ingredient.getName());
         }
         log.debug("ingredients used");
     }
