@@ -2,15 +2,10 @@ version: '3'
 
 services:
   postgres:
-    image: 'postgres:12'
+    build: ./postgres
     container_name: 'coffee-postgres'
-    environment:
-      - 'POSTGRES_DB=coffee_machine'
-      - 'POSTGRES_USER=postgres'
-      - 'POSTGRES_PASSWORD=cyfqgthjr202020'
     volumes:
-      - ./db-data:/var/lib/postgresql/data
-      - ./coffee.sql:/docker-entrypoint-initdb.d/coffee.sql
+      - ./postgres/db-data:/var/lib/postgresql/data
 
   pg_admin:
     image: 'dpage/pgadmin4:6.9'
@@ -44,4 +39,4 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - ../../logs:/coffee/logs
+      - ../../logs:/logs
