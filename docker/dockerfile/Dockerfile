@@ -5,7 +5,7 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 COPY coffee_DB.backup coffee_DB.backup
 COPY coffeeSetup.sh coffeeSetup.sh
-ADD  ../docker-compose/coffeemachine-0.0.1-SNAPSHOT.jar coffee.jar
+ADD  ../../target/coffeemachine-0.0.1-SNAPSHOT.jar coffee.jar
 
 RUN apt-get update && apt install sudo postgresql -y openjdk-11-jdk -y
 
