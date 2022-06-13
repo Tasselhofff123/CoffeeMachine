@@ -30,10 +30,11 @@ services:
       - ../../logs:/data/logs
 
   coffee_app:
-    build: ./
+    build: ../../
     container_name: 'coffee-app'
     depends_on:
       - postgres
+    command: sh -c './wait-for host:5432 -- cmd'
     environment:
       - 'spring.datasource.url=jdbc:postgresql://postgres:5432/coffee_machine'
     ports:
