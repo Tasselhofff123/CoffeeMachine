@@ -1,43 +1,42 @@
-version: '3'
+version: "3"
 
 services:
   postgres:
     build: ./postgres
-    container_name: 'coffee-postgres'
+    container_name: coffee-postgres
     volumes:
       - ./postgres/db-data:/var/lib/postgresql/data
 
   pg_admin:
-    image: 'dpage/pgadmin4:6.9'
-    container_name: 'pg-admin'
+    image: dpage/pgadmin4:6.9
+    container_name: pg-admin
     depends_on:
       - postgres
     environment:
-      - 'PGADMIN_DEFAULT_EMAIL=pgadmin4@pgadmin.org'
-      - 'PGADMIN_DEFAULT_PASSWORD=cyfqgthjr202020'
+      - PGADMIN_DEFAULT_EMAIL=pgadmin4@pgadmin.org
+      - PGADMIN_DEFAULT_PASSWORD=cyfqgthjr202020
     ports:
-      - '5050:80'
+      - 5050:80
 
   nginx:
     image: nginx:1.19.10
-    container_name: 'nginx'
+    container_name: nginx
     depends_on:
       - coffee_app
     ports:
-      - '80:80'
+      - 80:80
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf
       - ../../logs:/data/logs
 
   coffee_app:
     build: ../../
-    container_name: 'coffee-app'
+    container_name: coffee-app
     depends_on:
       - postgres
-    command: sh -c './wait-for host:5432 -- cmd'
     environment:
-      - 'spring.datasource.url=jdbc:postgresql://postgres:5432/coffee_machine'
+      - spring.datasource.url=jdbc:postgresql://postgres:5432/coffee_machine
     ports:
-      - "8080:8080"
+      - 8080:8080
     volumes:
       - ../../logs:/logs
